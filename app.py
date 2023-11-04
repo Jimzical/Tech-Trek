@@ -251,13 +251,15 @@ ColoredHeader(
     description="Now we will be using Streamlit to make a web app out of this. Let's start with the Basics"
 )
 
-st.title("How to Run Streamlit Code")
+st.subheader("1. Importing the streamlit module")
+st.code("import streamlit as st")
+st.subheader("2. How to Run Streamlit Code")
 st.code('streamlit run app.py')
 st.markdown("*This is the command to run a streamlit app, replace app.py with the your python file*")
-st.caption("This command should be run instead of python app.py in the terminal")
+st.caption("This command should be run instead of python app.py in the terminal, This will start a local server and open the app in your browser")
+
 
 st.title("Text Elements")
-st.divider()
 
 st.subheader("1. Title")
 with st.echo():
@@ -315,7 +317,15 @@ with st.echo():
     with st.expander("Documentation"):
         st.write(st.number_input)
 
-st.subheader("3. Checkbox")
+st.subheader("3. Button")
+with st.echo():
+    btn = st.button("This is a button, Click Me!") # to get button input from the user
+    if btn:
+        st.write("Button is clicked")
+    with st.expander("Documentation"):
+        st.write(st.button)
+
+st.subheader("4. Checkbox")
 with st.echo():
     check = st.checkbox("This is a checkbox") # to get checkbox input from the user
 
@@ -326,37 +336,89 @@ with st.echo():
     with st.expander("Documentation"):
         st.write(st.checkbox)
 
-st.subheader("4. Radio Button")
+st.subheader("5. Toggle")
+with st.echo():
+    toggle = st.toggle("This is a toggle") # to get toggle input from the user
+    if toggle:
+        st.write("Toggle is on")
+    else:
+        st.write("Toggle is off")
+    with st.expander("Documentation"):
+        st.write(st.toggle)
+
+st.subheader("6. Radio Button")
 with st.echo():
     radio = st.radio("This is a radio button", options=["Option 1", "Option 2"]) # to get radio button input from the user
     st.write(radio)
     with st.expander("Documentation"):
         st.write(st.radio)
 
-st.subheader("5. Selectbox")
+st.subheader("7. Selectbox")
 with st.echo():
     select = st.selectbox("This is a selectbox", options=["Option 1", "Option 2"]) # to get selectbox input from the user
     st.write(select)
     with st.expander("Documentation"):
         st.write(st.selectbox)
 
-st.subheader("6. Multiselect")
+st.subheader("8. Multiselect")
 with st.echo():
     multi = st.multiselect("This is a multiselect", options=["Option 1", "Option 2","Option 3","Option 4"]) # to get multiselect input from the user
     st.write(multi)
     with st.expander("Documentation"):
         st.write(st.multiselect)
 
-st.subheader("7. Slider")
+st.subheader("9. Slider")
 with st.echo():
     slider = st.slider("This is a slider", min_value=0, max_value=10) # to get slider input from the user
     st.write(slider)
     with st.expander("Documentation"):
         st.write(st.slider)
 
-st.subheader("8. Date Input")
+st.subheader("10. Date Input")
 with st.echo():
     date = st.date_input("This is a date input") # to get date input from the user
     st.write(date)
     with st.expander("Documentation"):
         st.write(st.date_input)
+
+st.divider()
+
+st.title("Sidebar Elements")
+st.markdown('''
+    The elements in the sidebar are the same as the main page, 
+    the only difference is that they are displayed in the sidebar
+''')
+side = st.toggle("Show Sidebar")
+
+if side:
+    with st.sidebar:
+        ColoredHeader(
+            "This is a Sidebar",
+            description="This is a sidebar element. All the elements in the sidebar are the same as the main page"
+            )
+    st.sidebar.subheader("Usage")
+    st.sidebar.code('''
+        # method 1
+        st.sidebar.title("This is a Sidebar")
+        st.sidebar.subheader("This is a sidebar element")
+        # method 2
+        with st.sidebar:
+            st.markdown("This is a sidebar markdown")
+            st.caption("This is a sidebar caption")
+    ''')
+    st.sidebar.title("This is a Sidebar")
+    st.sidebar.subheader("This is a sidebar element")
+    st.sidebar.markdown("This is a sidebar markdown")
+    st.sidebar.caption("This is a sidebar caption")
+
+st.caption('''
+For more info check out the [Streamlit Docs](https://docs.streamlit.io/en/stable/api.html)
+''')
+st.divider()
+
+st.write(" ")
+st.write(" ")
+st.write(" ")
+st.write(" ")
+st.markdown("<h2 style=\"color: gold; background: rgba(255, 215, 0, 0.1); border-radius: 10px; text-align: center;\">Thanks For Reading!</h2>", unsafe_allow_html=True)
+# st.markdown("<h2 style=\"color: gold; background: rgba(255, 215, 0, 0.1); border-radius: 10px; text-align: center; text-decoration: underline;\">Thanks For Reading!</h2>", unsafe_allow_html=True)
