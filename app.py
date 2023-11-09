@@ -1,14 +1,16 @@
+# TODO: Add Data folder and prompts
+
 import streamlit as st
 from helper_components import ColoredHeader, Notif
 
 ColoredHeader(
-    "Tech Trek | Fine Tuning Gpt’s",
+    "Tech Trek | Fine Tuning GPT’s",
     description=""
 )
 
 st.title("Introduction")
 st.write('''You must have used the Chat With Document or Chat with Data
-option in Chat-gpt. Discover how the dynamic combination of
+option in ChatGPT. Discover how the dynamic combination of
 GPT-3 and Llama-Index can create a new version of gpt models.
 By the end of the workshop You’ll be able to create a new gpt
 model whose responses would be specific to your dataset.
@@ -149,7 +151,7 @@ st.code(r'''
 def load_data():
     reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
     docs = reader.load_data()
-    service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0.5, system_prompt="You are an expert in analyzing student data of their particular University, Assume all input prompts to be with respect to the input data, Don't answer anything apart from educational related prompt"))
+    service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0.5, system_prompt="You will be provided with a student's portal dataset from a University, Your job is to analyze it and answer queries regarding it  "))
     index = VectorStoreIndex.from_documents(docs, service_context=service_context)
     return index
     ''')
@@ -211,8 +213,7 @@ Basically all the Data which we had transformed into vectors in the previous ste
 * `chat_mode="condense_question"` This mode condenses the user's question(or prompt) into a shorter
 form, which can be useful for more concise interactions. Basically removes the unnecessary words from the prompt
 
-* `verbose=True` If this Parameter is set to True then the chat engine provides additional
-information and feedback during the conversation process.
+* `verbose=True` If this Parameter is set to True then the Optimized prompt will be displayed as well.
 ''')
 
 st.divider()
