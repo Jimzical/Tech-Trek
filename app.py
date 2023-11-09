@@ -39,11 +39,10 @@ import openai
 openai.api_key = "YOUR_API_KEY"
 
 # Generate text
-prompt = "Write a poem about a cat."
+user_request = "Write a poem about a cat."
 response = openai.Completion.create(
-    engine="gpt-3.5-turbo",
-    prompt=prompt,
-    max_tokens=100
+    engine="text-davinci-003",
+    prompt=user_request
 )
 
 # Print the response
@@ -62,7 +61,7 @@ st.code("openai.api_key = \"YOUR_API_KEY\"")
 st.markdown("*Replace YOUR_API_KEY with your API key*")
 
 st.subheader("3. Choosing Prompt")
-st.code('''prompt = "Write a poem about a cat."''')
+st.code('''user_request = "Write a poem about a cat."''')
 st.markdown("*This is the prompt that will be used to generate the response*")
 st.markdown("Check out")
 st.markdown('''
@@ -73,12 +72,24 @@ st.markdown('''
 st.subheader("4. Generating the response")
 st.code(r'''
 response = openai.Completion.create(
-    engine="gpt-3.5-turbo",
-    prompt=prompt,
-    max_tokens=100
-)
+    engine="text-davinci-003",
+    prompt=user_request
+    )
 ''')
 st.markdown("*The response is stored in the response variable, This is basically the response you would get on the ChatGPT website if you would type the same prompt in the chatbox*")
+st.markdown('''
+<h5>Explaining the Parameters</h5>
+
+* `engine`, This is the engine being used, it depends on what you want to use the OpenAI for (text generation, audio model, image model, gpt3, gpt4, etc)
+* `prompt`, This is the question or prompt you want to ask the model
+
+''', unsafe_allow_html=True)
+
+st.subheader("5. Printing the response")
+st.code(r'''
+print(response.choices[0].text)
+''')
+st.markdown("*This prints the first response generated to the console/terminal*")
 
 ColoredHeader(
     "Lets Try Customizing It!",
@@ -198,7 +209,7 @@ st.markdown('''
 Basically all the Data which we had transformed into vectors in the previous step is now being used to create a chat engine.
 
 * `chat_mode="condense_question"` This mode condenses the user's question(or prompt) into a shorter
-form, which can be useful for more concise interactions.
+form, which can be useful for more concise interactions. Basically removes the unnecessary words from the prompt
 
 * `verbose=True` If this Parameter is set to True then the chat engine provides additional
 information and feedback during the conversation process.
@@ -263,32 +274,36 @@ st.title("Text Elements")
 
 st.subheader("1. Title")
 with st.echo():
-    st.title("*This* is how we can add `Title`") # similar to h1 in html
+    st.title("This is how we can add Title") # similar to <h1> in html
 st.divider()
 
 st.subheader("2. Subheader")
 with st.echo():
-    st.subheader('_Streamlit_ is :blue[cool] :sunglasses:')
-    st.subheader('This is a subheader with a divider', divider='rainbow')
+    st.subheader(':blue[Streamlit] is cool :rainbow[isnt it?]') # similar to <h2> in html ')
 
-st.subheader("3. Markdown")
+st.subheader("3. Write")
 with st.echo():
-    st.markdown("<h3>This is a Markdown Highlighted using HTML</h3>", unsafe_allow_html=True) # to display any markdown element
+    st.write("This is the *Easiest* way to items") 
+    st.write("It is similar to how we use print() to show things in the terminal/commandline")
+    st.write("It can be used to display any type of data")
+st.divider()
+
+st.subheader("4. Markdown")
+with st.echo():
+    st.markdown("<h3 style='color: red;'>Markdown Text</h3>", unsafe_allow_html=True)
     st.markdown('''
-        :red[Streamlit] :orange[can] :green[write] :blue[text] :violet[in]
-        :gray[pretty] :rainbow[colors].''')
-
-    multi = '''If you end a line with two spaces,
-    a soft return is used for the next line.
-
-    Two (or more) newline characters in a row will result in a hard return.
-    '''
-    st.markdown(multi)
+    Example of a table:
+    | Name | Age |
+    | --- | --- |
+    | Alice | 20 |
+    | Bob | 21 |
+    | Carol | 22 |
+    ''')
 st.divider()
 
 st.subheader("4. Write")
 with st.echo():
-    st.write("This is a Write, It displays any text element based on its data type") # to display any text element, will update based on the type of element
+    st.write("This is a _Write_, It displays any text element based on its data type") # to display any text element, will update based on the type of element
 st.divider()
 
 st.subheader("5. Latex")
@@ -301,11 +316,38 @@ with st.echo():
     st.caption('This is a string that explains something above.')
     st.caption('A caption with _italics_ :blue[colors] and emojis :sunglasses:')
 
+st.subheader("7. Tables")
+with st.echo():
+    dct = {
+        "Name": ["Alice", "Bob", "Carol"],
+        "Age": [20, 21, 22]
+    }
+    st.table(dct)
+    lst = [ [1, 2, 3], [4, 5, 6], [7, 8, 9] ]
+    st.dataframe(lst) # to display any text element, will update based on the type of element
+
+
+st.title("Simple Graphs")
+
+st.subheader("1. Line Chart")
+with st.echo():
+    st.line_chart([1, 2, 4, 5, 3]) # to display line chart
+
+st.subheader("2. Area Chart")
+with st.echo():
+    st.area_chart([1, 2, 4, 5, 3]) # to display area chart
+
+st.subheader("3. Bar Chart")
+with st.echo():
+    st.bar_chart([1, 2, 4, 5, 3]) # to display bar chart
+
+st.caption("For More Graphs Check out the [Streamlit Docs For Graphs](https://docs.streamlit.io/library/api-reference/charts)")
+
 st.title("Input Elements")
 
 st.subheader("1. Text Input")
 with st.echo():
-    txt = st.text_input("This is a text input", value="default text") # to get text input from the user
+    txt = st.text_input("This is a text input") # to get text input from the user
     st.write(txt)
     with st.expander("Documentation"):
         st.write(st.text_input)
@@ -355,17 +397,16 @@ with st.echo():
 
 st.subheader("7. Selectbox")
 with st.echo():
-    select = st.selectbox("This is a selectbox", options=["Option 1", "Option 2"]) # to get selectbox input from the user
+    select = st.selectbox("This is a selectbox", options=["James", "Bob", "Carol", "David", "Eleanor", "Frank", "Grace", "Helen", "Ian", "Julia","Alice","Jake","Charles"], index=None) # to get selectbox input from the user
     st.write(select)
     with st.expander("Documentation"):
         st.write(st.selectbox)
-
 st.subheader("8. Multiselect")
 with st.echo():
-    multi = st.multiselect("This is a multiselect", options=["Option 1", "Option 2","Option 3","Option 4"]) # to get multiselect input from the user
+    multi = st.multiselect("This is a multiselect", options=["James", "Bob", "Carol", "David", "Eleanor", "Frank", "Grace", "Helen", "Ian", "Julia","Alice","Jake","Charles"]) # to get multiselect input from the user
     st.write(multi)
     with st.expander("Documentation"):
-        st.write(st.multiselect)
+         st.write(st.multiselect)
 
 st.subheader("9. Slider")
 with st.echo():
